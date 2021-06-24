@@ -1,0 +1,107 @@
+---
+layout: post
+title:  "Project 4: Toxic Comment Classification"
+date:   2021-06-21 00:52:09 -0700
+categories: Python NLP Machine-Learning
+---
+<img src="{{site.baseurl}}/images/online-trolling.jpeg?raw=true" width="600"/>
+
+## Background
+With the current ease of online communication through various platforms such as blogs, social networks and discussion forums, it has allowed knowledge and information sharing but has also provided an opportunity for people attack and bully through a shield of anonymity. According to Pew, [41% of U.S. adults](https://www.pewresearch.org/internet/2021/01/13/the-state-of-online-harassment/) personally experienced online harassment, while 25% have experienced more severe harassment. While these kinds of negative encounters may occur anywhere online, social media is by far the most common venue cited for harassment. 
+
+## Motivation
+In this project, I performed NLP text preprocessing in order to transform the text data into a more digestible form prior to training my model with several classification algorithms. After obtaining a classifier model that can predict if an input text is toxic, I then scraped comments from select subreddits on Reddit known for their toxicity and applied my classifier to determine the overall level of toxicity of the subreddit.
+
+## Dataset
+The training dataset provided by [Conversation AI](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview) contains 159,571 Wikipedia comments from discussion pages pertaining to user pages and articles dating from 2004-2015. The data consists of one input feature, the string data for the comments, and six labels for different categories of toxic comments:
+- `toxic`
+- `severe_toxic`
+- `obscene`
+- `threat`
+- `insult`
+- `threat`
+
+I created a seventh label `harmful` to represent if the comment was overall non-toxic (0) toxic (1).
+
+## EDA
+Just over 10% of the dataset is labeled as toxic, with three categories - severe toxic, identity hate, and threat - making up less than 1% of the data.  This makes the training data highly balanced, which will be addressed prior to modeling. 
+
+<img src="{{site.baseurl}}/images/project4/comment_label.png?raw=true"/>
+
+In addition, some comments are labeled into more than one category of toxicity. For example, there are 31 comments that belong in all six categories. 
+
+<img src="{{site.baseurl}}/images/project4/label_comment.png?raw=true"/>
+
+The correlation matrix below provides more insight into these overlapping categories. Threats and identity hate comments did not have much overlap but insults were often obscene. 
+
+<img src="{{site.baseurl}}/images/project4/text_heatmap.png?raw=true"/>
+
+Here are some example of comments in each category:
+
+<img src="{{site.baseurl}}/images/project4/sample_text.png?raw=true"/>
+
+## Text Pre-processing
+Text classification model performance depends on the type of words used in the corpus. Common words (also known as stopwords) and other "noisy" elements do not usually help to differentiate between texts. Using nltk and gensim packages in Python, the following pre-processing steps were:
+1. Lowercase all texts
+2. Remove '\n'
+3. Convert accented characters to ASCII characters
+4. Expand contractions
+5. Remove possessives
+6. Remove special characters
+7. Remove extra whitespaces
+8. Remove stopwords
+9. Lemmatization
+
+These steps helped reduce the size of my corpus, in particular, lemmatization which converts each word to its root form. I took into account context similarity according to part-of-speech anatomy thus every word was tagged to a part-of-speech and only modifiable words – nouns, verbs, adjectives, and adverbs – were reduced to roots.
+
+## Converting Text to Features
+To analyze and model text after it has been preprocessed, it must first be converted into features. Here, I used TF-IDF, or Term Frequency - Inverse Document Frequency. TF-IDF is a statistic that aims to reflect how important a word is to a document in a corpus. It increases proportionally with the number of times a word appears in a document, but is offset by its frequency in the overall corpus. 
+
+Using TF-IDF, I first found the relative importance of each individual word (unigrams) in all categories. There was significant overlap of words in the toxic categories, such as fuck, shit, bitch, and suck.
+
+<img src="{{site.baseurl}}/images/project4/top_unigrams.png?raw=true"/>
+
+I then found the frequency distribution for two adjacent words (bigrams). There was again overlap among toxic categories - 'fuck fuck' and 'piece shit'. I did not include bigrams into my model as they did not provide much different information than unigrams. 
+
+<img src="{{site.baseurl}}/images/project4/top_bigrams.png?raw=true"/>
+
+## Modelling
+### Dealing with Unbalanced Data
+To address the issue of having an imbalanced training set, I took into account either underrepresenting the majority or overrepresenting the minority. Since the imbalance is severe, oversampling may increase the likelihood of overfitting the minority class and may result result in increased computational cost. Therefore, I undersampled the majority class to fit my minority class. 
+
+<img src="{{site.baseurl}}/images/project4/class_imbalance.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project4/class_balanced.png?raw=true"/>
+
+### Classification Models
+As this is a NLP classification task that involves high dimensionality data, I vectorized the text data using TF-IDF and tested four classification models:
+- Logistic Regression
+- Multinomial Naive Bayes
+- Random Forest
+- Support Vector Machine
+
+I utilized cross-validation and a grid search to find the best parameters for the TF-IDF algorithm and each individual model. The F1 score was chosen as the optimization metric, as it helps strike a balance between precision (toxic comments classified correctly over the total number of comments predicted as fake) and sensitivity/recall (the proportion of toxic comments classified correctly). 
+
+### Model Results
+The logistic regression and support vector machine models produced the best results using TF-IDF to convert our text to features. However, the logistic regression model was much faster to train, which is important from a time-complexity standpoint when evaluating model performance.
+
+<img src="{{site.baseurl}}/images/project4/model_results.png?raw=true"/>
+
+Seen in the ROC graph below, the logistic regression model had a high sensitivity (it predicted toxic comments quite well) and a low false positive rate (it did not predict a large portion of non-toxic comments as toxic).
+
+<img src="{{site.baseurl}}/images/project4/roc_curve.png?raw=true"/>
+
+
+## Subreddit Scoring
+I decided to use my classifier model on Reddit as it is one of the biggest social news and discussion websites and has occasionally been the topic of controversy due to the presence of communities on the site (known as "subreddits") that contains explicit or controversial material. I scraped five subreddits that are considered controversial - KotakuInAction, MensRights, NoFap, TumblrInAction, TrollXChromosomes - for user comments and determined their overall perentage of toxicity. MensRight and TumblrInAction had the highest percentage of toxicity, while NoFap had the least, but its toxicity was still over 30%.
+
+<img src="{{site.baseurl}}/images/project4/reddit_results.png?raw=true"/>
+
+
+## Conclusion
+My toxic comment classification model with an accurancy and F1 score of 89% predicted several subreddits with a toxicity of over 30%, including a few over 40%. Though the training dataset provided categories as to which each toxic comment can be labeled as, I decided to just focus on whether the comment was toxic or nontoxic as the distinctions between the specific labels are relatively ambiguous, and that there is greater value focusing on general toxicity of a comment to more reliably flag it for review. This will reduce the workload of moderators who will ultimately be making the final call, and the specific category more relates to the consequences for the commenter rather than whether or not the comment should be deleted.
+
+
+## Future Works
+- Include timestamp of comments to analyze toxicity over time 
+- Feature engineering of comment attributes outside of the words themselves, such as length of comment, amount of uppercase words, and number of exclamation marks in the comment
+- train model with recurrent neural networks

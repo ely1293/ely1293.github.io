@@ -1,0 +1,161 @@
+---
+layout: post
+title:  "Project 3: Predicting Housing Prices in Ames, Iowa"
+date:   2021-04-15 00:52:09 -0700
+categories: Python Machine-Learning
+---
+<img src="{{site.baseurl}}/images/neighborhood.jpeg?raw=true" width="600"/>
+
+## Background
+Housing price is a topic of interest for almost anyone. Being able to accurately predict how much a house can be sold for is of practical importance for homeowners, house hunters and real-estate brokerage firms. With platforms such as Zillow, Redfin, and Compass, the real-estate business has become increasingly more data and technology driven. Domain knowledge from agents are still extremely valuable, yet with the power of rich data and machine learning algorithms, you don’t have to be an expert to accurately predict a house’s selling price.
+
+## Motivation
+In this project, I performed exploratory data analysis, data cleaning, feature engineering, model selection, and model parameter tuning on a housing price dataset in order to:
+- accurately predict housing prices based on available features
+- determine the most important features that contribute to the price of a hous
+
+## Dataset
+The dataset provided from Kaggle, [House Prices: Advanced Regression Techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques), contains explanatory variables describing (almost) every aspect of residential homes in Ames, Iowa from 2006 to 2010. There are a total of 1460 homes and 79 features that will serve as the predictors for `SalePrice`, the property's sale price in dollars. The features are as follows:
+- **MSSubClass**: The building class
+- **MSZoning**: The general zoning classification
+- **LotFrontage**: Linear feet of street connected to property
+- **LotArea**: Lot size in square feet
+- **Street**: Type of road access
+- **Alley**: Type of alley access
+- **LotShape**: General shape of property
+- **LandContour**: Flatness of the property
+- **Utilities**: Type of utilities available
+- **LotConfig**: Lot configuration
+- **LandSlope**: Slope of property
+- **Neighborhood**: Physical locations within Ames city limits
+- **Condition1**: Proximity to main road or railroad
+- **Condition2**: Proximity to main road or railroad (if a second is present)
+- **BldgType**: Type of dwelling
+- **HouseStyle**: Style of dwelling
+- **OverallQual**: Overall material and finish quality
+- **OverallCond**: Overall condition rating
+- **YearBuilt**: Original construction date
+- **YearRemodAdd**: Remodel date
+- **RoofStyle**: Type of roof
+- **RoofMatl**: Roof material
+- **Exterior1st**: Exterior covering on house
+- **Exterior2nd**: Exterior covering on house (if more than one material)
+- **MasVnrType**: Masonry veneer type
+- **MasVnrArea**: Masonry veneer area in square feet
+- **ExterQual**: Exterior material quality
+- **ExterCond**: Present condition of the material on the exterior
+- **Foundation**: Type of foundation
+- **BsmtQual**: Height of the basement
+- **BsmtCond**: General condition of the basement
+- **BsmtExposure**: Walkout or garden level basement walls
+- **BsmtFinType1**: Quality of basement finished area
+- **BsmtFinSF1**: Type 1 finished square feet
+- **BsmtFinType2**: Quality of second finished area (if present)
+- **BsmtFinSF2**: Type 2 finished square feet
+- **BsmtUnfSF**: Unfinished square feet of basement area
+- **TotalBsmtSF**: Total square feet of basement area
+- **Heating**: Type of heating
+- **HeatingQC**: Heating quality and condition
+- **CentralAir**: Central air conditioning
+- **Electrical**: Electrical system
+- **1stFlrSF**: First Floor square feet
+- **2ndFlrSF**: Second floor square feet
+- **LowQualFinSF**: Low quality finished square feet (all floors)
+- **GrLivArea**: Above grade (ground) living area square feet
+- **BsmtFullBath**: Basement full bathrooms
+- **BsmtHalfBath**: Basement half bathrooms
+- **FullBath**: Full bathrooms above grade
+- **HalfBath**: Half baths above grade
+- **Bedroom**: Number of bedrooms above basement level
+- **Kitchen**: Number of kitchens
+- **KitchenQual**: Kitchen quality
+- **TotRmsAbvGrd**: Total rooms above grade (does not include bathrooms)
+- **Functional**: Home functionality rating
+- **Fireplaces**: Number of fireplaces
+- **FireplaceQu**: Fireplace quality
+- **GarageType**: Garage location
+- **GarageYrBlt**: Year garage was built
+- **GarageFinish**: Interior finish of the garage
+- **GarageCars**: Size of garage in car capacity
+- **GarageArea**: Size of garage in square feet
+- **GarageQual**: Garage quality
+- **GarageCond**: Garage condition
+- **PavedDrive**: Paved driveway
+- **WoodDeckSF**: Wood deck area in square feet
+- **OpenPorchSF**: Open porch area in square feet
+- **EnclosedPorch**: Enclosed porch area in square feet
+- **3SsnPorch**: Three season porch area in square feet
+- **ScreenPorch**: Screen porch area in square feet
+- **PoolArea**: Pool area in square feet
+- **PoolQC**: Pool quality
+- **Fence**: Fence quality
+- **MiscFeature**: Miscellaneous feature not covered in other categories
+- **MiscVal**: Value of miscellaneous feature
+- **MoSold**: Month Sold
+- **YrSold**: Year Sold
+- **SaleType**: Type of sale
+- **SaleCondition**: Condition of sale
+
+## Data Pre-processing
+### Target Feature
+For the target feature, `SalePrice`, there was deviation from normal distribution and a positive skewness. Log transformation was thus applied so it can follow Gaussian distribution.
+
+<img src="{{site.baseurl}}/images/project3/saleprice_raw.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project3/saleprice_process.png?raw=true"/>
+
+### Missing Data
+I observed the dataset for missingness and decided how to handle them based on the percentage of missingness percentage and what type of missingness - missing completely at random, missing at random, and missing not at random.
+
+<img src="{{site.baseurl}}/images/project3/missing_features.png?raw=true"/>
+
+- `PoolQC`, `MiscFeature`, `Alley`, `Fence` had over 80% missing data, I decided to remove these features as this is a high number of missingness and I believe these features do not add much to the model.
+- Those without any fireplace did not have a fireplace quality attribute thus `FireplaceQu` was imputed with N/A.
+- For `LotFrontage`, I imputed missing values based off of the median grouped by `Neighborhood`. 
+- The `Garage` variables correspond to houses without garages so they were imputed respectively.
+- The same imputation method for garage features was then carried out for `Bsmt` features, except for the house at index 949 in which `BsmtExposure` was imputed as "No".
+- Masonry veneer features were also imputed with having none.
+- The one missing value for `Electrical` was imputed with the most occuring electrical system.
+
+### Outliers
+I observed for outliers in the dataset as indicated in http://jse.amstat.org/v19n3/decock.pdf. From the graph of `SalePrice` vs. `GrLivArea`, there appears to be two observations that appear as outliers. Analyzing these two observations, they are partial Sales that likely don’t represent actual market values, thus can be removed.
+
+<img src="{{site.baseurl}}/images/project3/outlier_Raw.png?raw=true"/><img src="{{site.baseurl}}/images/project3/outlier_removed.png?raw=true"/>
+
+### Feature Engineering
+Nominal categorical features that were of numeric type, `MSSubClass` and `MoSold`, were converted to categories, and ordinal categorical features that were not of numeric type were label encoded to preserve the order of the values and to reduce dimensionality during the dummification process.
+- `ExterQual`, `ExterCond`, `BsmtQual`, `BsmtCond`, `HeatingQC`, `KitchenQual`, `FireplaceQu`, `GarageQual`, `GarageCond` - {Ex: 5, Gd: 4, TA: 3, Fa: 2, Po: 1, NA: 0}
+
+To also increase predictor strength and reduce multicollinearity, new features were engineered from existing features, such as:
+- `TotalSF` = `TotalBsmtSF` + `GrLivArea`
+- `TotalBath` =  `FullBath` + `BsmtFullBath` + 0.5*`HalfBath` + 0.5*`BsmtHalfBath`
+- `TotalPorchSF` = `OpenPorchSF` + `EnclosedPorch` + `3SsnPorch` + `ScreenPorch`
+
+Some existing features were also replaced with new features that hopefully provided more predictive power:
+- `PoolArea` replaced with if there is a pool or not
+- `MiscVal` replaced with if there is miscellaneous features or not
+- `GarageYrBuilt` replaced with if there is a garage or not and the age of the garage
+- `YearRemodAdd` replaced with if the house was remodeled or not and the age of the remodel
+
+Categorical features were then dummified for compatibility with models used. 
+<img src="{{site.baseurl}}/images/project3/dummification.png?raw=true"/>
+
+## Modelling
+As this is a regression task, two families of predictive models - linear and tree-based - were considered for modelling. I evaluated the models by first splitting our training dataset into an 80/20 split, where 80% of the data was used to train the model and the remaining 20% was used to evaluate the predictions, directly assessing the model’s performance. In addition, I utilized cross-validation and a grid search to find the best parameters for each mode.
+
+The three linear models - lasso, ridge, elastic net - were relatively simple to implement and do not take long to optimize. To minimize overfitting, lasso reduces the number of predictors by dropping ones that do not provide explanatory power to the model, while ridge reduces the effect of the weak predictors but does not eliminate them as they might provide some explanatory power in the model. Elastic net is a hybrid of lasson and ridge.
+
+The three tree-based models - random forest, gradient boosting, extreme gradient boosting - on the other hand, are more robust compared to linear models. Random forest and boosting are both ensembling techniques that aggregates many weak learners to produce a strong learner but in different ways. Random forest is a parallel ensembling technique that uses a bagging method to create multiple individual decision trees that are uncorrelated, while boosting is a sequential ensembling technique in which the addition of a tree is based on improving the performance of the previous tree.
+
+To asses each model's performance, RSME was used as the metric. The results of the RSME of each model were as followed, in ascending order:
+
+<img src="{{site.baseurl}}/images/project3/model_results.png?raw=true"/>
+
+Of the linear models, lasso achieved the lowest RSME, while extreme gradient boosting achieved the lowest RSME of the tree-based models. 
+
+## Conclusion
+Overall, the extreme gradient boosting model performed the best. This was not a surprise to me as extreme gradient boosting as it offers much faster training time, higher accuracy and scalability for large data sets. Since the two best models do feature selection, the most important features can be observed for both. Not surprisingly, total square footage, an engineered feature, was the key feature to both models. Other important features include material and finish quality, total bathrooms, total rooms, and year built. One important feature that did surprise me was the number of fireplaces.
+
+<img src="{{site.baseurl}}/images/project3/feature_importance_lasso.png?raw=true"/><img src="{{site.baseurl}}/images/project3/feature_importance_xgb.png?raw=true"/>
+
+## Future Works
+In order to improve the model, I would like to continue exploring methods that can minimize overfitting, including feature engineering using PCA and/or clustering or stacking different models together. In addition, I can complement the dataset with other demographic information, such as crime rate, literacy, school district, etc., from other publicly available sources.
