@@ -12,6 +12,8 @@ With the current ease of online communication through various platforms such as 
 ## Motivation
 In this project, I performed NLP text preprocessing in order to transform the text data into a more digestible form prior to training my model with several classification algorithms. After obtaining a classifier model that can predict if an input text is toxic, I then scraped comments from select subreddits on Reddit known for their toxicity and applied my classifier to determine the overall level of toxicity of the subreddit.
 
+[Github repository](https://github.com/ely1293/NLP-Toxic-Comment-Classification)
+
 ## Dataset
 The training dataset provided by [Conversation AI](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview) contains 159,571 Wikipedia comments from discussion pages pertaining to user pages and articles dating from 2004-2015. The data consists of one input feature, the string data for the comments, and six labels for different categories of toxic comments:
 - `toxic`
