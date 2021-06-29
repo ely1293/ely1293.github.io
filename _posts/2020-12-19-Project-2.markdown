@@ -17,9 +17,9 @@ In this project, I scraped MyDramaList.com for their wide database of Asian tele
 - What media companies (networks) have potential for licensing partnerships?
 - Which genres tend to attract more viewerships?
 
-[Github repository](https://github.com/ely1293/Web_Scraping_Asian_Dramas)
-
 I also created a recommendation system using cosine similarity based on genres in order to help determine what drama one should watch next.
+
+[Github repository](https://github.com/ely1293/Web_Scraping_Asian_Dramas)
 
 ## Dataset
 The dataset contains all completed television dramas from South Korea, Japan, China, Taiwan, Hong Kong, Thailand, and Philippines released in 2000 until present. There is a total of 12039 dramas with 14 features that are as follow:
