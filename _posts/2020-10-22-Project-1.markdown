@@ -15,6 +15,9 @@ In this project, I created an interactive dashboard using R Shiny visualizing ch
 - identify emerging health problems 
 - establish and monitor key health objectives
 
+[Github repository](https://github.com/ely1293/R-Shiny-500-Cities-Dashboard)
+
+[R Shiny dashboard](https://elyang.shinyapps.io/500-Cities-Health-Measures/)
 
 ## Dataset
 The dataset from [500 Cities Project](https://www.cdc.gov/places/about/500-cities-2016-2019/index.html) contains the crude and age adjusted prevalence, obtained using small area estimation methods, of 27 health measures for the 500 largest American cities. Measures are grouped into three categories as follow:
