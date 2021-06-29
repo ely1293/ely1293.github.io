@@ -12,7 +12,9 @@ Housing price is a topic of interest for almost anyone. Being able to accurately
 ## Motivation
 In this project, I performed exploratory data analysis, data cleaning, feature engineering, model selection, and model parameter tuning on a housing price dataset in order to:
 - accurately predict housing prices based on available features
-- determine the most important features that contribute to the price of a hous
+- determine the most important features that contribute to the price of a house
+
+[Github repository](https://github.com/ely1293/Machine-Learning-Housing-Prices)
 
 ## Dataset
 The dataset provided from Kaggle, [House Prices: Advanced Regression Techniques](https://www.kaggle.com/c/house-prices-advanced-regression-techniques), contains explanatory variables describing (almost) every aspect of residential homes in Ames, Iowa from 2006 to 2010. There are a total of 1460 homes and 79 features that will serve as the predictors for `SalePrice`, the property's sale price in dollars. The features are as follows:
