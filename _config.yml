@@ -36,7 +36,11 @@ plainwhite:
     #telegram: jekyll
     #gitlab: jekyll
     #email: jekyll
-
+  navigation:
+    - title: About
+      url: "/about"
+    - title: Resume
+      url: "/resume"
     # Mastodon instances
     # mastodon:
     # - username: jekyll
