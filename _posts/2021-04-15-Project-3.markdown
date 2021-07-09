@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Project 3: Predicting Housing Prices in Ames, Iowa"
+title:  "Predicting Housing Prices with Machine Learning"
 date:   2021-04-15 00:52:09 -0700
 categories: Python Machine-Learning
 ---
