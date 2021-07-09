@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Project 2: Web Scraping Asian TV Dramas"
+title:  "Rising Popularity of Asian TV Dramas"
 date:   2020-12-19 00:52:09 -0700
 categories: Python Scrapy
 ---
