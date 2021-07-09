@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Project 1: 500 Cities Health Measures Analysis"
+title:  "Your Neighborhood Your Health"
 date:   2020-10-22 00:52:09 -0700
 categories: R Shiny
 ---
