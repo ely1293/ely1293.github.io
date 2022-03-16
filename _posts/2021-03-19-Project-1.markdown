@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Project 1: 500 Cities Health Measures Analysis"
+title:  "500 Cities Health Measures Dashboard"
 date:   2021-03-19 00:52:09 -0700
 categories: R Shiny
 ---
