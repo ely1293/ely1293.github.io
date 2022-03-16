@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Project 4: Toxic Comment Classification"
+title:  "Toxic Comment Classification"
 date:   2021-08-27 00:52:09 -0700
 categories: Python NLP Machine-Learning
 ---
