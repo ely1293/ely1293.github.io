@@ -40,17 +40,17 @@ The dataset contains 4768 job postings with the query of "data scientist" from s
 
 ### Missingness of salary information
 
-<img src="{{site.baseurl}}/images/project2/missingness.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/missingness.png?raw=true"/>
 
 I wanted to first observe the amount of missing data among all features. Unsurprisingly, `Salary` had over 95% of missingness as employers don't usually post salary ranges. Nevertheless, I decided to still use the limited data available to conduct analysis around salary, but should not be noted as significant. 
 
 ### State and city-wise
 
-<img src="{{site.baseurl}}/images/project2/jobs_by_state.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/jobs_by_state.png?raw=true"/>
 
 California leads in demand for data-science related jobs, followed by New York, and Texas. This was expected as California is the dominant state for tech jobs, with Silicon Valley as the pioneer tech hub, several other areas with strong tech presence.
 
-<img src="{{site.baseurl}}/images/project2/jobs_by_city.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/jobs_by_city.png?raw=true"/>
 
 City-wise, New York City has the most demand for data-science related jobs, followed by Seattle, and Chicago. This is most likely because these three are the major tech hubs for their respective state, while California is represented by more cities such as San Francisco, San Diego, San Jose, and Los Angeles. 
 
@@ -60,27 +60,27 @@ Here, it can be observed that Alabama has the highest median salary, followed by
 
 ### Industry
 
-<img src="{{site.baseurl}}/images/project2/jobs_by_industry.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/jobs_by_industry.png?raw=true"/>
 
 In regards to industries that offer the highest number of jobs, Information Technology is the largest sector, followed by Business Services, and Finance. 
 
-<img src="{{site.baseurl}}/images/project2/median_salary_by_industry.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/median_salary_by_industry.png?raw=true"/>
 
 ### Company
 
-<img src="{{site.baseurl}}/images/project2/jobs_by_company.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/jobs_by_company.png?raw=true"/>
 
 Here are the top 20 companies in terms of hiring volume. Facebook appears to be a big employer followed by Amazon, Accenture, and Apple.
 
 
-<img src="{{site.baseurl}}/images/project2/rating_salary.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/rating_salary.png?raw=true"/>
 
 I wanted to see if there was a relationship between company rating and salary. We see here that there is no relation between the two features.
 
 
 ### Job Type
 
-<img src="{{site.baseurl}}/images/project2/jobs_by_type.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/jobs_by_type.png?raw=true"/>
 
 It's reassuring to know that most jobs offered are for full-time.
 
@@ -92,21 +92,21 @@ Since my exact query into Glassdoor's search bar was "data scientist", it's expe
 
 ### Education
 
-<img src="{{site.baseurl}}/images/project2/education.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/education.png?raw=true"/>
 
 Educational requirement-wise, most job positions only required a Bachelor's degree. However, a large number of jobs also require higher education.
 
-<img src="{{site.baseurl}}/images/project2/edu_by_function.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/edu_by_function.png?raw=true"/>
 
 In regards to educational requirements specifically for data scientist, data analyst, and data engineer positions, employeers are seeking data scientists with not just a Bachelor's, but a Master's and/or a PhD. Data engineer and analyst positions seem more lenient on the applicant only having a Bachelor's degree
 
 ### Skills
 
-<img src="{{site.baseurl}}/images/project2/skills.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/skills.png?raw=true"/>
 
 Python, SQL, and R are the most widely valued skills, followed by Spark, AWS, and Tableau. This is also observed for data scientist positions, specifically.
 
-<img src="{{site.baseurl}}/images/project2/ds_skills.png?raw=true"/>
+<img src="{{site.baseurl}}/images/project5/ds_skills.png?raw=true"/>
 
 
 ## Conclusion
