@@ -1,0 +1,119 @@
+---
+layout: post
+title:  "Exploring Data Science Job Market with Glassdoor"
+date:   2021-05-19 00:52:09 -0700
+categories: Python BeautifulSoup
+---
+
+<img src="{{site.baseurl}}/images/glassdoor.jpeg?raw=true" width="600"/>
+
+## Background
+As a career changer, my insight into the data science job market is somewhat limited. Although it was named [the sexiest job of the 21st century](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century) in 2012, what does that mean in terms of job prospects in 2021? Therefore I wanted to do my own analysis into the data science job market. Though there many job ssearch engines, I decided to focus on Glassdoor as they provide a detailed overview on each company, as well as salary and benefits information.
+
+## Motivation
+In this project, I scraped Glassdoor using BeautifulSoup and performed exploratory data analysis to answer the following questions:
+- Which states and subsequent cities have the highest number of available data science-related positions?
+- What is the average salary of data science-related positions per state?
+- Which industries are offering more jobs? Which industries have highest mean salaries?
+- Which companies are hiring most? Is company rating related to salary provided?
+- Which job positions are mentioned the most?
+- What kind of jobs are being offered - full time, part time, contract, temporary?
+- What are the minimal as well as highest educational levels required for these positions?
+- Which computational skills are most sought after?
+
+## Dataset
+The dataset contains 4768 job postings with the query of "data scientist" from states with major tech hubs. It was obtained using BeautifulSoup, which first extracted job listing links from the result page to individual job listing pages, and then from each job listing page, it extracted the necessary features I wanted:
+
+- **Company** - The name of the employer, _string_
+- **Rating** - The employer's overall rating, _int64_
+- **Role** - The title of the position _string_
+- **Location** - The location of the position, _string_
+- **Salary** - The employer's estimated base salary range, _string_
+- **JobType** - The type of employment, e.g. full-time, part-time _string_
+- **JobFunction** - The overarching function of the position, _string_
+- **Industry** - The industry of the employer, _string_
+- **Size** - The size of the company _string_ 
+- **url** - The link url to the job positing, _string_
+- **Description** - The job description which includes education and skill requirements, _string_
+
+## Exploratory Data Analysis
+
+### Missingness of salary information
+
+<img src="{{site.baseurl}}/images/project2/missingness.png?raw=true"/>
+
+I wanted to first observe the amount of missing data among all features. Unsurprisingly, `Salary` had over 95% of missingness as employers don't usually post salary ranges. Nevertheless, I decided to still use the limited data available to conduct analysis around salary, but should not be noted as significant. 
+
+### State and city-wise
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_state.png?raw=true"/>
+
+California leads in demand for data-science related jobs, followed by New York, and Texas. This was expected as California is the dominant state for tech jobs, with Silicon Valley as the pioneer tech hub, several other areas with strong tech presence.
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_city.png?raw=true"/>
+
+City-wise, New York City has the most demand for data-science related jobs, followed by Seattle, and Chicago. This is most likely because these three are the major tech hubs for their respective state, while California is represented by more cities such as San Francisco, San Diego, San Jose, and Los Angeles. 
+
+<img src="{{site.baseurl}}/images/project2/median_salary_by_state.png?raw=true"/>
+
+Here, it can be observed that Alabama has the highest median salary, followed by New York and California. However, once again, it should be noted that salary information is limited as only 3 employers in Alabama listed their salary range as opposed to 12 and 48 in New York and California, respectively.
+
+### Industry
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_industry.png?raw=true"/>
+
+In regards to industries that offer the highest number of jobs, Information Technology is the largest sector, followed by Business Services, and Finance. 
+
+<img src="{{site.baseurl}}/images/project2/median_salary_by_industry.png?raw=true"/>
+
+### Company
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_company.png?raw=true"/>
+
+Here are the top 20 companies in terms of hiring volume. Facebook appears to be a big employer followed by Amazon, Accenture, and Apple.
+
+
+<img src="{{site.baseurl}}/images/project2/rating_salary.png?raw=true"/>
+
+I wanted to see if there was a relationship between company rating and salary. We see here that there is no relation between the two features.
+
+
+### Job Type
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_type.png?raw=true"/>
+
+It's reassuring to know that most jobs offered are for full-time.
+
+### Job Function
+
+<img src="{{site.baseurl}}/images/project2/jobs_by_function.png?raw=true"/>
+
+Since my exact query into Glassdoor's search bar was "data scientist", it's expected that the job postings were overwhelming for a data scientist. However, there are quite a few postings for data-science related jobs such as data analyst, data engineer, and machine learning engineer.
+
+### Education
+
+<img src="{{site.baseurl}}/images/project2/education.png?raw=true"/>
+
+Educational requirement-wise, most job positions only required a Bachelor's degree. However, a large number of jobs also require higher education.
+
+<img src="{{site.baseurl}}/images/project2/edu_by_function.png?raw=true"/>
+
+In regards to educational requirements specifically for data scientist, data analyst, and data engineer positions, employeers are seeking data scientists with not just a Bachelor's, but a Master's and/or a PhD. Data engineer and analyst positions seem more lenient on the applicant only having a Bachelor's degree
+
+### Skills
+
+<img src="{{site.baseurl}}/images/project2/skills.png?raw=true"/>
+
+Python, SQL, and R are the most widely valued skills, followed by Spark, AWS, and Tableau. This is also observed for data scientist positions, specifically.
+
+<img src="{{site.baseurl}}/images/project2/ds_skills.png?raw=true"/>
+
+
+## Conclusion
+From the data, it can be observed that there are many jobs available and regardless of which state one works in, the average salary for data science-related jobs are almost or over 100k. For me personally, I live in Los Angeles  and even though California has the most available jobs, they are spread between both Northern and Southern California. Thus if I wanted to increase my chances of getting hired, I would most likely have to apply and consider moving to San Francisco, San Jose, and San Diego. Additionally, for those that live in New York in cities outside of New York City, their only options are New York City or jersey City if they wish to stay close to home. 
+In addition, the industry in the popular states are focused on I.T., so if I wanted to enter the healthcare industry, I should consider widening my scope to other states such as Colorodo, Massachussetts, or Minnesota. 
+
+## Future Works
+One limitation of this analysis was that I did not have any historical data. It will be interesting to gather more data in future and analyze other factors such as how long it takes for a positions get filled, what are the best days of week or even month to look for a position, or changes in salary. 
+It would also add to my data if I scraped other popular websites for job-seekers such as Indeed, LinkedIn, Ziprecruiter as it may have postings that Glassdoor does not have. 
+This analysis can also lead to interesting machine learning projects, such as a recommendation system for which jobs to apply to based on location, salary desire, skills, education, and work experience.
