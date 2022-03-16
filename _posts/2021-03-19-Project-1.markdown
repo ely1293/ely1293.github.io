@@ -2,7 +2,7 @@
 layout: post
 title:  "500 Cities Health Measures Dashboard"
 date:   2021-03-19 00:52:09 -0700
-categories: R Shiny
+categories: [R, Shiny]
 ---
 
 <img src="{{site.baseurl}}/images/500-cities-logo.png?raw=true" width="600"/>
