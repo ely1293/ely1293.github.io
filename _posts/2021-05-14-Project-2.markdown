@@ -2,7 +2,7 @@
 layout: post
 title:  "Web Scraping Asian TV Dramas"
 date:   2021-05-14 00:52:09 -0700
-categories: Python Scrapy
+categories: [Python, Scrapy]
 ---
 
 <img src="{{site.baseurl}}/images/collage_dramas.jpeg?raw=true" width="600"/>
