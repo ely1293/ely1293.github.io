@@ -2,7 +2,7 @@
 layout: post
 title:  "Toxic Comment Classification"
 date:   2021-08-27 00:52:09 -0700
-categories: Python NLP Machine-Learning
+categories: [Python, NLP, Machine Learning]
 ---
 <img src="{{site.baseurl}}/images/online-trolling.jpeg?raw=true" width="600"/>
 
