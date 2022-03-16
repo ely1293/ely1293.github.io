@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Exploring Data Science Job Market with Glassdoor"
-date:   2021-05-19 00:52:09 -0700
+date:   2021-04-23 00:52:09 -0700
 categories: [Python, BeautifulSoup]
 ---
 
